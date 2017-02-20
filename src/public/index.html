@@ -1,0 +1,96 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Watch torrents online.">
+    <meta name="author" content="Alberto Miranda <b3rt.js@gmail.com>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lunch Notifier</title>
+
+    <!-- open graph -->
+    <meta property="og:title" content="Lunch Notifier" />
+    <meta property="og:site_name" content="Lunch Notifier"/>
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Way better than looking in the spreadsheet ;)" />
+    <!-- <meta property="og:url" content="TODO" /> -->
+    <!-- <meta property="og:image" content="TODO" /> -->
+    <!-- <link rel="image_src" href="TODO" /> -->
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/alertify.js/0.5.0/alertify.default.min.css" rel="stylesheet">
+
+    <!-- build:css /styles/main.css -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="app" class="container-fluid">
+      <div class="input-container">
+        <input
+          id="name"
+          type="text"
+          class="big-input rounded abs-center"
+          placeholder="Write your name as it's written in the lunch spreadsheet"
+          autofocus
+        />
+
+        <div id="lunch-container" class="big-input abs-center">
+          <p>Hey <b id="person-name" class="capitalize"></b>!</p>
+          <p>This is what you have for lunch today:</p>
+          <h2><b id="lunch-description"></b></h2>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading" class="abs-center">
+      <div class="sk-fading-circle">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+        <div class="sk-circle9 sk-circle"></div>
+        <div class="sk-circle10 sk-circle"></div>
+        <div class="sk-circle11 sk-circle"></div>
+        <div class="sk-circle12 sk-circle"></div>
+      </div>
+    </div>
+
+    <footer class="abs-bottom">
+      <p>
+        Enjoy your food!
+      </p>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/alertify.js/0.5.0/alertify.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.9/system.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bean/1.0.15/bean.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js /scripts/bundle.js -->
+    <script>
+      SystemJS.config({
+        'baseURL': 'js',
+        map: {
+          'plugin-babel': 'lib/plugin-babel.js',
+          'systemjs-babel-build': 'lib/systemjs-babel-browser.js'
+        },
+        transpiler: 'plugin-babel'
+      });
+      SystemJS.import("main.js");
+    </script>
+    <!-- endbuild -->
+  </body>
+</html>

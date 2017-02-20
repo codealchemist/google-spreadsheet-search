@@ -25,6 +25,10 @@ app.use(morgan('dev')) // logger
 app.use(bodyParser.json())
 app.set('json spaces', 2)
 
+// static routes
+app.use(express.static(__dirname + '/public/'));
+app.use('/img', express.static(__dirname + '/public/img'));
+
 // set routes
 require('./routes')(app)
 

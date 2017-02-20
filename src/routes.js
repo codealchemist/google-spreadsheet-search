@@ -1,6 +1,7 @@
 const lunchService = require('./services/lunch') 
 
 module.exports = (app) => {
+  // avoid favicon errors (not available)
   app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
   });
