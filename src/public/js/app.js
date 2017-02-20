@@ -19,11 +19,11 @@ export default class App {
   }
 
   autoloadLunch () {
-    if (location.pathname !== '/[a-z ]+/i') return false
+    if (!location.pathname.match(/[a-z]+/i)) return false
 
     let url = location.href
     let baseUrl = `${location.origin}/`
-    let name = url.replace(baseUrl, '')
+    let name = decodeURI(url.replace(baseUrl, '')).trim()
 
     // load lunch
     this.loadLunch(name)
@@ -36,16 +36,27 @@ export default class App {
 
     // TODO: query backend and get lunch
     const lunchService = new LunchService(name)
-    lunchService.get((response) => {
-      console.log('--- GOT LUNCH:', response)
-      this.renderLunch(name, response)
-    })
+    lunchService.get(
+      (response) => {
+        console.log('--- GOT LUNCH:', response)
+        this.renderLunch(name, response)
+      },
+      (error) => {
+        alertify.error('Oops... Something broke at the kitchen.')
+
+        this.$loading.hide()
+        this.$name.val('').show().focus()
+      },
+    )
   }
 
   renderLunch (name, data) {
+    let lunch = data.lunch
+    if (lunch === '(EMPTY)') lunch = 'JUST AIR, sorry.'
+
     this.$loading.hide()
     this.$lunchContainer.show()
-    this.$lunch.html(data.lunch)
+    this.$lunch.html(lunch)
     this.$nameRender.html(name)
   }  
 

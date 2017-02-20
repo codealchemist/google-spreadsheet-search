@@ -17,6 +17,15 @@ body {
   font-family: Raleway;
 }
 
+h1 {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 400;
+  color: #555;
+  margin: 0 20px;
+  text-align: center;
+  font-size: 40px;
+}
+
 #lunch-container {
   display: none;
   color: #999;
