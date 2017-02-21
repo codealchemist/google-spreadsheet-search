@@ -9,13 +9,8 @@ export default class App {
     this.$lunch = new El('lunch-description')
     this.$nameRender = new El('person-name')
 
-    this.setDefaults()
     this.setEvents()
     this.autoloadLunch()
-  }
-
-  setDefaults () {
-    // alertify.defaults.glossary.title = 'Lunch Notifier' // default alert title
   }
 
   autoloadLunch () {
