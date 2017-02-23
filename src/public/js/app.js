@@ -37,7 +37,7 @@ export default class App {
         this.renderLunch(name, response)
       },
       (error) => {
-        alertify.error('Oops... Something broke at the kitchen.')
+        alertify.error('Oops... Something broke at the kitchen.', 0)
 
         this.$loading.hide()
         this.$name.val('').show().focus()
