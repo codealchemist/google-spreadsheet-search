@@ -9,7 +9,7 @@ export default class LunchService {
 
   get (successCallback, errorCallback) {
     this.successCallback = successCallback
-    this.errorCallback = successCallback
+    this.errorCallback = errorCallback
 
     const url = `${this.serviceUrl}/name/${this.name}`
     this.promise = fetch(url, {
