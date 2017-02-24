@@ -1,14 +1,22 @@
 const lunchService = require('./services/lunch') 
 const {resolve} = require('path')
 
-module.exports = (app) => {
+module.exports = ({app, serverUrl}) => {
   // avoid favicon errors (not available)
   app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
   });
 
+  app.get('/', (req, res) => { 
+    res.render(resolve('src/public/index.html'), {
+      serverUrl: serverUrl
+    })
+  })
+
   app.get('/:name', (req, res) => { 
-    res.sendFile(resolve('src/public/index.html'))
+    res.render(resolve('src/public/index.html'), {
+      serverUrl: serverUrl
+    })
   })
 
   app.get('/name/:name', (req, res) => { 
