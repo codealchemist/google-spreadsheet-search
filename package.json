@@ -1,7 +1,7 @@
 {
   "name": "lunch-notifier-service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Find what you have for lunch in one easy step, with style ;)",
   "main": "src/index.js",
   "scripts": {
     "test": "standard",

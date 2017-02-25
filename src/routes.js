@@ -3,6 +3,9 @@ const auth = require('./services/auth')
 const {resolve} = require('path')
 
 module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) => {
+  // Set redirect URL using current client url.
+  auth.init(clientUrl)
+
   // avoid favicon errors (not available)
   app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);

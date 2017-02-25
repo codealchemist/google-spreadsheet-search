@@ -16,18 +16,18 @@ var artFile = path.join(__dirname, '/ascii-art.txt')
 var art = fs.readFileSync(artFile, 'utf8')
 console.info(art)
 
-const clientUrl = process.env.CLIENT_URL
-const spreadsheetId = process.env.SPREADSHEET_ID
-const spreadsheetRange = process.env.SPREADSHEET_RANGE
+// Set config params.
+const port = process.env.PORT || process.env.port || 9200
+const clientUrl = process.env.CLIENT_URL || `http://localhost:${port}`
+const spreadsheetId = process.env.SPREADSHEET_ID || '1pP81mzxvsN5B8EriyJgrWHRha5tMM07D0sya_OTVgX4'
+const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Food!!A1:X100'
 console.log(`
 	CONFIG:
+	- Server Port: ${port}
 	- Client URL: ${clientUrl}
 	- Spreadsheet ID: ${spreadsheetId}
 	- Spreadsheet Range: ${spreadsheetRange}
 `)
-
-// set ip and port
-var port = process.env.PORT || process.env.port || 80
 
 // set port
 app.set('port', port)

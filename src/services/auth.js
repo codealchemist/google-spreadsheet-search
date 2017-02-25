@@ -19,14 +19,18 @@ const TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.credentials.json'
 
 const clientSecret = 'C4k6hgC8q9F-NkTP_zW-Up16'
 const clientId = '230695130495-nlrp4ldi1m81fhr8jkvi48bbcegcdqs2.apps.googleusercontent.com'
-const redirectUrl = 'http://localhost/auth/google/callback'
 
 const auth = new GoogleAuth()
-const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
+let oauth2Client
 
-module.exports = {grant, getNewTokenWebFlow, deleteCredentials}
+module.exports = {grant, getNewTokenWebFlow, deleteCredentials, init}
 
 // ----------------------------------------------------------------------
+
+function init (clientUrl) {
+  const redirectUrl = getRedirectUrl(clientUrl)
+  oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
+}
 
 /**
  * Completes the authentication process and calls passed callback
@@ -172,4 +176,8 @@ function deleteCredentials () {
   fs.unlink(TOKEN_PATH, () => {
     console.log('Error recovery: Existing credentials removed.')
   })
+}
+
+function getRedirectUrl (clientUrl) {
+  return `${clientUrl}/auth/google/callback`
 }
