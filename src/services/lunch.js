@@ -4,22 +4,15 @@ const spreadsheet = require('./spreadsheet')
 const winston = require('winston')
 winston.level = 'debug'
 
-// Define spreadsheet params.
-const spreadsheetId = '1pP81mzxvsN5B8EriyJgrWHRha5tMM07D0sya_OTVgX4'
-const spreadsheetRange = 'Food!!A1:X100'
-
 // Use default filter.
 const filter = require('../filters/default')
 
 /**
- * Gets or asks for required arguments, schedules notification
- * if time is specified, and fires notification.
- * If `filter` function is provided uses it to filter data before
- * setting notification.
+ * Get lunch for passed person name.
  *
- * @param  {function} filter
+ * @param {string} personName
  */
-function get (personName) {
+function get (personName, spreadsheetId, spreadsheetRange) {
   // Validate params.
   if (!personName) throw new Error('personName is required!')
 

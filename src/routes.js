@@ -2,22 +2,18 @@ const lunchService = require('./services/lunch')
 const auth = require('./services/auth')
 const {resolve} = require('path')
 
-module.exports = ({app, serverUrl}) => {
+module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) => {
   // avoid favicon errors (not available)
   app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
   });
 
   app.get('/', (req, res) => { 
-    res.render(resolve('src/public/index.html'), {
-      serverUrl: serverUrl
-    })
+    res.render(resolve('src/public/index.html'), {})
   })
 
   app.get('/:name', (req, res) => { 
-    res.render(resolve('src/public/index.html'), {
-      serverUrl: serverUrl
-    })
+    res.render(resolve('src/public/index.html'), {})
   })
 
   app.get('/name/:name', (req, res) => { 
@@ -25,7 +21,7 @@ module.exports = ({app, serverUrl}) => {
     console.log(`Requesting lunch for ${personName}`)
 
     lunchService
-      .get(personName)
+      .get(personName, spreadsheetId, spreadsheetRange)
       .then(
         (lunch) => {
           console.log('GOT LUNCH: ', lunch)
@@ -34,7 +30,7 @@ module.exports = ({app, serverUrl}) => {
             .json(lunch)
         },
         (error) => {
-          console.log('- ERROR: ', error.message)
+          console.log('- ERROR: ', error.message || error.status || error)
           errorRecovery(error)
 
           res
@@ -49,12 +45,12 @@ module.exports = ({app, serverUrl}) => {
     const personName = req.query.personName
 
     if (!code) {
-      res.redirect(`${serverUrl}?error=not-authorized`)
+      res.redirect(`${clientUrl}?error=not-authorized`)
       return
     }
 
     auth.getNewTokenWebFlow(code, (response) => {
-      res.redirect(serverUrl)
+      res.redirect(clientUrl)
     })
   })
 }

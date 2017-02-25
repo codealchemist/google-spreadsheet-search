@@ -86,7 +86,7 @@
 
     <!-- build:js /scripts/bundle.js -->
     <script>
-      const serverUrl = '<%= serverUrl %>'
+      const serverUrl = location.origin
       SystemJS.config({
         'baseURL': 'js',
         map: {

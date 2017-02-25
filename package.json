@@ -6,7 +6,8 @@
   "scripts": {
     "test": "standard",
     "start": "node src/index.js",
-    "docker-start": "./run.sh"
+    "docker-start": "./run.sh",
+    "docker-rebuild": "./run.sh rebuild"
   },
   "author": "Alberto Miranda",
   "license": "MIT",
