@@ -27,13 +27,33 @@ function get (personName) {
   return getLunch({spreadsheetId, spreadsheetRange, filter: filter.run})
 }
 
+function getLunch ({spreadsheetId, spreadsheetRange, filter}) {
+  return getRows({spreadsheetId, spreadsheetRange}).then((rows) => {
+    if (typeof filter === 'function') {
+      rows = filter(rows)
+      winston.log('debug', '-- FILTERED ROWS:', rows)
+    }
+
+    // Return lunch message.
+    const message = getMessage(rows)
+    return {
+      lunch: message
+    }
+  })
+}
+
 function getRows ({spreadsheetId, spreadsheetRange}) {
   return new Promise((resolve, reject) => {
     // Ensure the user gives us access to its Google Drive documents.
     auth.grant((auth) => {
+      if (auth.status === 'not-authorized') reject(auth)
+
       spreadsheet
         .getRows({auth, spreadsheetId, spreadsheetRange})
-        .then((rows) => resolve(rows))
+        .then(
+          (rows) => resolve(rows),
+          (error) => reject(error)
+        )
     })
   })
 }
@@ -50,21 +70,6 @@ function getMessage (rows) {
 
   // Single value response.
   return rows[0]
-}
-
-function getLunch ({spreadsheetId, spreadsheetRange, filter}) {
-  return getRows({spreadsheetId, spreadsheetRange}).then((rows) => {
-    if (typeof filter === 'function') {
-      rows = filter(rows)
-      winston.log('debug', '-- FILTERED ROWS:', rows)
-    }
-
-    // Return lunch message.
-    const message = getMessage(rows)
-    return {
-      lunch: message
-    }
-  })
 }
 
 module.exports = {get}

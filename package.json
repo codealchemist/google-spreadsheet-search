@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "standard",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "docker-start": "./run.sh"
   },
   "author": "Alberto Miranda",
   "license": "MIT",

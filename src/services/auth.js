@@ -17,7 +17,14 @@ const TOKEN_DIR = (
 ) + '/.credentials/'
 const TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.credentials.json'
 
-module.exports = {grant}
+const clientSecret = 'C4k6hgC8q9F-NkTP_zW-Up16'
+const clientId = '230695130495-nlrp4ldi1m81fhr8jkvi48bbcegcdqs2.apps.googleusercontent.com'
+const redirectUrl = 'http://localhost:9200/auth/google/callback'
+
+const auth = new GoogleAuth()
+const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
+
+module.exports = {grant, getNewTokenWebFlow, deleteCredentials}
 
 // ----------------------------------------------------------------------
 
@@ -51,16 +58,17 @@ function grant (callback) {
  * @param {function} callback The callback to call with the authorized client.
  */
 function authorize (credentials, callback) {
-  const clientSecret = credentials.installed.client_secret
-  const clientId = credentials.installed.client_id
-  const redirectUrl = credentials.installed.redirect_uris[0]
-  const auth = new GoogleAuth()
-  const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
+  // const clientSecret = credentials.installed.client_secret
+  // const clientId = credentials.installed.client_id
+  // const redirectUrl = credentials.installed.redirect_uris[0]
 
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, function (err, token) {
     if (err) {
-      getNewToken(oauth2Client, callback)
+      // getNewToken(oauth2Client, callback)
+      
+      const authObj = getAuthObject()
+      callback(authObj)
     } else {
       oauth2Client.credentials = JSON.parse(token)
       callback(oauth2Client)
@@ -114,6 +122,35 @@ function getNewToken (oauth2Client, callback) {
   })
 }
 
+function getAuthObject () {
+  const authUrl = oauth2Client.generateAuthUrl({
+    scope: SCOPES
+  })
+
+  return {
+    status: 'not-authorized',
+    url: authUrl
+  }
+}
+
+function getNewTokenWebFlow (code, callback) {
+  oauth2Client.getToken(code, function (err, token) {
+    if (err) {
+      winston.log('debug', 'Error while trying to retrieve access token', err)
+      winston.log('debug', '-'.repeat(80))
+      winston.log('debug', '')
+      return
+    }
+
+    winston.log('debug', '- Got user authorization.')
+    oauth2Client.credentials = token
+    storeToken(token)
+    callback({
+      status: 'authorized'
+    })
+  })
+}
+
 /**
  * Store token to disk be used in later program executions.
  *
@@ -128,5 +165,11 @@ function storeToken (token) {
     }
   }
   fs.writeFile(TOKEN_PATH, JSON.stringify(token))
-  winston.log('debug', 'Token stored to ' + TOKEN_PATH)
+  winston.log('debug', `Token stored to ${TOKEN_PATH}`)
+}
+
+function deleteCredentials () {
+  fs.unlink(TOKEN_PATH, () => {
+    console.log('Error recovery: Existing credentials removed.')
+  })
 }

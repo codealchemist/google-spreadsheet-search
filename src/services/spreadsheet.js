@@ -17,7 +17,7 @@ function getRows ({auth, spreadsheetId, spreadsheetRange}) {
     }, function (err, response) {
       if (err) {
         winston.log('debug', '- The API returned an error: ' + err)
-        process.exit()
+        reject(err)
         return
       }
 
