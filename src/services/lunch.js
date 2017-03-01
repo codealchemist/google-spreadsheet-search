@@ -2,7 +2,7 @@
 const auth = require('./auth')
 const spreadsheet = require('./spreadsheet')
 const winston = require('winston')
-winston.level = 'debug'
+winston.level = 'info'
 
 // Use default filter.
 const filter = require('../filters/default')
