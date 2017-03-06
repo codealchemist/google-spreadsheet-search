@@ -21,6 +21,11 @@ export default class El {
     return this
   }
 
+  style (styleName, value) {
+    this.$el.style[styleName] = value
+    return this
+  }
+
   focus () {
     this.$el.focus()
     return this

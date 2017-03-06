@@ -2,24 +2,17 @@
 const auth = require('./auth')
 const spreadsheet = require('./spreadsheet')
 const winston = require('winston')
-winston.level = 'debug'
-
-// Define spreadsheet params.
-const spreadsheetId = '1pP81mzxvsN5B8EriyJgrWHRha5tMM07D0sya_OTVgX4'
-const spreadsheetRange = 'Food!!A1:X100'
+winston.level = 'info'
 
 // Use default filter.
 const filter = require('../filters/default')
 
 /**
- * Gets or asks for required arguments, schedules notification
- * if time is specified, and fires notification.
- * If `filter` function is provided uses it to filter data before
- * setting notification.
+ * Get lunch for passed person name.
  *
- * @param  {function} filter
+ * @param {string} personName
  */
-function get (personName) {
+function get (personName, spreadsheetId, spreadsheetRange) {
   // Validate params.
   if (!personName) throw new Error('personName is required!')
 
@@ -27,13 +20,33 @@ function get (personName) {
   return getLunch({spreadsheetId, spreadsheetRange, filter: filter.run})
 }
 
+function getLunch ({spreadsheetId, spreadsheetRange, filter}) {
+  return getRows({spreadsheetId, spreadsheetRange}).then((rows) => {
+    if (typeof filter === 'function') {
+      rows = filter(rows)
+      winston.log('debug', '-- FILTERED ROWS:', rows)
+    }
+
+    // Return lunch message.
+    const message = getMessage(rows)
+    return {
+      lunch: message
+    }
+  })
+}
+
 function getRows ({spreadsheetId, spreadsheetRange}) {
   return new Promise((resolve, reject) => {
     // Ensure the user gives us access to its Google Drive documents.
     auth.grant((auth) => {
+      if (auth.status === 'not-authorized') reject(auth)
+
       spreadsheet
         .getRows({auth, spreadsheetId, spreadsheetRange})
-        .then((rows) => resolve(rows))
+        .then(
+          (rows) => resolve(rows),
+          (error) => reject(error)
+        )
     })
   })
 }
@@ -50,21 +63,6 @@ function getMessage (rows) {
 
   // Single value response.
   return rows[0]
-}
-
-function getLunch ({spreadsheetId, spreadsheetRange, filter}) {
-  return getRows({spreadsheetId, spreadsheetRange}).then((rows) => {
-    if (typeof filter === 'function') {
-      rows = filter(rows)
-      winston.log('debug', '-- FILTERED ROWS:', rows)
-    }
-
-    // Return lunch message.
-    const message = getMessage(rows)
-    return {
-      lunch: message
-    }
-  })
 }
 
 module.exports = {get}

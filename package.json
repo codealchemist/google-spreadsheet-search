@@ -1,11 +1,13 @@
 {
   "name": "lunch-notifier-service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Find what you have for lunch in one easy step, with style ;)",
   "main": "src/index.js",
   "scripts": {
     "test": "standard",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "docker-start": "./run.sh",
+    "docker-rebuild": "./run.sh rebuild"
   },
   "author": "Alberto Miranda",
   "license": "MIT",

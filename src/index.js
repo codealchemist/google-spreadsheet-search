@@ -16,8 +16,18 @@ var artFile = path.join(__dirname, '/ascii-art.txt')
 var art = fs.readFileSync(artFile, 'utf8')
 console.info(art)
 
-// set ip and port
-var port = process.env.PORT || process.env.port || 9200
+// Set config params.
+const port = process.env.PORT || process.env.port || 9200
+const clientUrl = process.env.CLIENT_URL || `http://localhost:${port}`
+const spreadsheetId = process.env.SPREADSHEET_ID || '1hrBIuaXWJe30eDS2WV4ajLQtaZ-xChOZ1ibY-CdjSis'
+const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Food!!A1:X100'
+console.log(`
+	CONFIG:
+	- Server Port: ${port}
+	- Client URL: ${clientUrl}
+	- Spreadsheet ID: ${spreadsheetId}
+	- Spreadsheet Range: ${spreadsheetRange}
+`)
 
 // set port
 app.set('port', port)
@@ -31,7 +41,7 @@ app.set('views', path.join(__dirname, '/public'))
 
 // set routes
 const serverUrl = `http://${localIp}:${port}`
-require('./routes')({app, serverUrl})
+require('./routes')({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange})
 
 // static routes
 app.use(express.static(__dirname + '/public/'));
