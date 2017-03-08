@@ -1,3 +1,4 @@
+'use strict'
 const lunchService = require('./services/lunch')
 const auth = require('./services/auth')
 const {resolve} = require('path')
@@ -34,10 +35,6 @@ module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) 
         },
         (error) => {
           console.log('- ERROR: ', error.message || error.status || error)
-          console.log(`
-            error.message: ${error.message}
-            error.status: ${error.status}
-          `)
           error.recovery = errorRecovery(error)
 
           res

@@ -42,15 +42,16 @@ function init (clientUrl) {
  */
 function grant (callback) {
   // Load client secrets from a local file.
-  const creds = resolve(__dirname, '../../client_id.json')
-  fs.readFile(creds, function processClientSecrets (err, content) {
+  const credentialsFile = resolve(__dirname, '../../ids.json')
+  fs.readFile(credentialsFile, function processClientSecrets (err, content) {
     if (err) {
       winston.log('debug', 'Error loading client secret file: ' + err)
       return
     }
     // Authorize a client with the loaded credentials, then call the
     // Google Sheets API.
-    authorize(JSON.parse(content), callback)
+    const credentials = JSON.parse(content)
+    authorize(credentials.sheets, callback)
   })
 }
 
@@ -62,15 +63,11 @@ function grant (callback) {
  * @param {function} callback The callback to call with the authorized client.
  */
 function authorize (credentials, callback) {
-  // const clientSecret = credentials.installed.client_secret
-  // const clientId = credentials.installed.client_id
-  // const redirectUrl = credentials.installed.redirect_uris[0]
-
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, function (err, token) {
     if (err) {
       // getNewToken(oauth2Client, callback)
-      
+
       const authObj = getAuthObject()
       callback(authObj)
     } else {

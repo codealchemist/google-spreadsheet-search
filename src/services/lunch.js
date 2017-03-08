@@ -1,6 +1,7 @@
 'use strict'
 const auth = require('./auth')
 const spreadsheet = require('./spreadsheet')
+const imageSearch = require('./image-search')
 const winston = require('winston')
 winston.level = 'info'
 
@@ -29,9 +30,15 @@ function getLunch ({spreadsheetId, spreadsheetRange, filter}) {
 
     // Return lunch message.
     const message = getMessage(rows)
-    return {
-      lunch: message
-    }
+    const foodName = message.replace(/^[a-z]+ - /i, '')
+    return imageSearch
+      .get(foodName)
+      .then((image) => {
+        return {
+          lunch: message,
+          image
+        }
+      })
   })
 }
 
