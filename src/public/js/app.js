@@ -9,6 +9,7 @@ export default class App {
     this.$lunchContainer = new El('lunch-container')
     this.$lunch = new El('lunch-description')
     this.$nameRender = new El('person-name')
+    this.$background = new El('background')
 
     this.setEvents()
     if (this.hasErrors()) {
@@ -146,7 +147,13 @@ export default class App {
     this.$lunchContainer.show()
     this.$lunch.html(lunch)
     this.$nameRender.html(name)
-  }  
+
+    // Render image.
+    if (data.image) {
+      let image = data.image.src
+      this.$background.style('background-image', `url('${image}')`)
+    }
+  }
 
   setEvents () {
     // name pasted
