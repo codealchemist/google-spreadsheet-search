@@ -32,7 +32,7 @@ console.log(`
 // set port
 app.set('port', port)
 
-app.use(morgan('dev')) // logger
+// app.use(morgan('short')) // logger
 app.use(bodyParser.json())
 app.set('json spaces', 2)
 app.engine('html', ejs.renderFile)
