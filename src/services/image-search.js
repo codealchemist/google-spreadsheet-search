@@ -10,6 +10,10 @@ function search (terms, callback) {
   googleSearch({
     cx: credentials.search.cx,
     auth: credentials.search.key,
+    imgSize: 'medium',
+    imgType: 'photo',
+    num: 1,
+    hq: 'comida',
     q: terms
   }, callback)
 }
