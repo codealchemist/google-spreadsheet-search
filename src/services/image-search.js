@@ -23,12 +23,11 @@ function get (terms) {
     search(terms, (err, response) => {
       if (err) return reject(err)
 
-      if (!response.items || !response.items.length || !response.items[0].pagemap.cse_image.length) {
-        resolve(null)
-        return
-      }
+      let image = null
+      try {
+        image = response.items[0].pagemap.cse_image[0]
+      } catch(e) {}
 
-      const image = response.items[0].pagemap.cse_image[0]
       resolve(image)
     })
   })
