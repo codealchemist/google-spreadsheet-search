@@ -1,0 +1,1 @@
+web: CLIENT_URL=https://lunch-notifier.herokuapp.com npm start
