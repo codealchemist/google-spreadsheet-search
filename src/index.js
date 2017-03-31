@@ -19,7 +19,7 @@ console.info(art)
 const port = process.env.PORT || process.env.port || 9200
 const clientUrl = process.env.CLIENT_URL || `http://localhost:${port}`
 const spreadsheetId = process.env.SPREADSHEET_ID || '1hrBIuaXWJe30eDS2WV4ajLQtaZ-xChOZ1ibY-CdjSis'
-const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Food!!A1:X100'
+const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Food!!A1:Z100'
 console.log(`
 	CONFIG:
 	- Server Port: ${port}

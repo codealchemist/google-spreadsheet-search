@@ -14,6 +14,6 @@ fi
 docker run \
 -e "CLIENT_URL=http://localhost" \
 -e "SPREADSHEET_ID=1hrBIuaXWJe30eDS2WV4ajLQtaZ-xChOZ1ibY-CdjSis" \
--e "SPREADSHEET_RANGE=Food!!A1:X100" \
+-e "SPREADSHEET_RANGE=Food!!A1:Z100" \
 -e "PORT=$dockerPort" \
 -p $localPort:$dockerPort -d $imageTag
