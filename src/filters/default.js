@@ -1,10 +1,11 @@
 const dateFormat = require('dateformat')
+const dateFormatting = process.env.DATE_FORMATTING || 'd-mmm'
 let personName
 
 // Set rows filter.
 function run (rows) {
-  const currentDate = dateFormat(new Date(), 'mmm d')
-  
+  const currentDate = dateFormat(new Date(), dateFormatting)
+
   // Filter rows.
   let filteredRows = []
 
