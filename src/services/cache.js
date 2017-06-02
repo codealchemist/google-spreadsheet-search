@@ -7,8 +7,8 @@ const ttl = 8 * 60 * 60 * 1000 // 8 hours.
 const fileName = '.lunch-notifier-cache.json'
 const cachePath = getCachePath()
 const cacheFile = `${cachePath}/${fileName}`
-const memoryRows = null
-const lastUpdatedTime = null
+let memoryRows = null
+let lastUpdatedTime = null
 
 function getCachePath () {
   return process.env.CACHE_PATH ||
