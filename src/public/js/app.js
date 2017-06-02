@@ -41,7 +41,9 @@ export default class App {
     const year = date[3]
 
     console.log('DATE:', `${month} ${dayNumber} ${dayName}`)
-    this.$date.html(`${month} ${dayNumber} ${dayName}`)
+    this.$date
+      .html(`${month} ${dayNumber} ${dayName}`)
+      .appear()
   }
 
   getParameterByName (name, url) {

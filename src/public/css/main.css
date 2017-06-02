@@ -126,9 +126,19 @@ footer p {
 }
 
 .appear {
-  transition: 2s;
+  transition: 2s all;
   animation-duration: 5s;
   animation-name: appear;
+}
+
+.appear-slow {
+  transition: 4s all;
+  animation-duration: 5s;
+  animation-name: appear;
+}
+
+.animate {
+  transition: 2s all;
 }
 
 @keyframes appear {

@@ -26,6 +26,11 @@ export default class El {
     return this
   }
 
+  appear () {
+    this.style('opacity', 1)
+    return this
+  }
+
   focus () {
     this.$el.focus()
     return this
