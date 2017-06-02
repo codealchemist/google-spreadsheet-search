@@ -88,6 +88,14 @@ b {
   font: 16px Raleway;
 }
 
+.date-container {
+  position: fixed;
+  color: #bbb;
+  font-size: 40px;
+  top: 60px;
+  right: 80px;
+}
+
 .capitalize {
   text-transform: capitalize;
 }

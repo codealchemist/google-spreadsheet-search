@@ -10,7 +10,9 @@ export default class App {
     this.$lunch = new El('lunch-description')
     this.$nameRender = new El('person-name')
     this.$background = new El('background')
+    this.$date = new El('date')
 
+    this.setDate()
     this.setEvents()
     if (this.hasErrors()) {
       this.deleteSession()
@@ -25,7 +27,24 @@ export default class App {
     this.$nameContainer.style('opacity', 1)
   }
 
-  getParameterByName(name, url) {
+  setDate () {
+    const date = new Date().toLocaleDateString('en-GB', {
+        day : 'numeric',
+        weekday: 'short',
+        month : 'short',
+        year : 'numeric'
+    }).split(' ')
+
+    const dayNumber = date[0]
+    const dayName = date[1]
+    const month = date[2]
+    const year = date[3]
+
+    console.log('DATE:', `${month} ${dayNumber} ${dayName}`)
+    this.$date.html(`${month} ${dayNumber} ${dayName}`)
+  }
+
+  getParameterByName (name, url) {
       if (!url) {
         url = window.location.href;
       }
