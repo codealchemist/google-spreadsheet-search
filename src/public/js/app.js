@@ -35,14 +35,15 @@ export default class App {
         year : 'numeric'
     }).split(' ')
 
-    const dayNumber = date[0]
-    const dayName = date[1]
+    console.log(date)
+    const dayName = date[0].replace(',', '')
+    const dayNumber = date[1]
     const month = date[2]
     const year = date[3]
 
-    console.log('DATE:', `${month} ${dayNumber} ${dayName}`)
+    console.log('DATE:', `${month} ${dayNumber}, ${dayName}`)
     this.$date
-      .html(`${month} ${dayNumber} ${dayName}`)
+      .html(`<b>${month} ${dayNumber}</b>, ${dayName}`)
       .appear()
   }
 
