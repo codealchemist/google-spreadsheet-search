@@ -1,11 +1,11 @@
 {
   "name": "lunch-notifier-service",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Find what you have for lunch in one easy step, with style ;)",
   "main": "src/index.js",
   "scripts": {
     "test": "standard",
-    "start": "node src/index.js",
+    "start": "node src/index.js --debug",
     "docker-start": "./run.sh",
     "docker-rebuild": "./run.sh rebuild"
   },
@@ -21,6 +21,7 @@
     "ip": "^1.1.4",
     "morgan": "^1.8.1",
     "open": "0.0.5",
+    "pretty-ms": "^2.1.0",
     "winston": "^2.3.1"
   }
 }

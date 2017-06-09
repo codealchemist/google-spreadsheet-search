@@ -1,4 +1,3 @@
-'use strict'
 const lunchService = require('./services/lunch')
 const auth = require('./services/auth')
 const {resolve} = require('path')

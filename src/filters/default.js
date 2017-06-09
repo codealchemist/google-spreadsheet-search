@@ -1,5 +1,5 @@
 const dateFormat = require('dateformat')
-const dateFormatting = process.env.DATE_FORMATTING || 'd-mmm'
+const dateFormatting = process.env.DATE_FORMATTING || 'mmm d'
 let personName
 
 // Set rows filter.

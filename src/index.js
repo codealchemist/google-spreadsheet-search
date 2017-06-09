@@ -1,4 +1,3 @@
-'use strict'
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -18,8 +17,8 @@ console.info(art)
 // Set config params.
 const port = process.env.PORT || process.env.port || 9200
 const clientUrl = process.env.CLIENT_URL || `http://localhost:${port}`
-const spreadsheetId = process.env.SPREADSHEET_ID || '1hrBIuaXWJe30eDS2WV4ajLQtaZ-xChOZ1ibY-CdjSis'
-const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Food!!A1:Z100'
+const spreadsheetId = process.env.SPREADSHEET_ID || '124t0jPUtTBwmMx3zWxn7Li1uquvtPE4UFvU_F6MDy0w'
+const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Monthly Food!A1:Z100'
 console.log(`
 	CONFIG:
 	- Server Port: ${port}

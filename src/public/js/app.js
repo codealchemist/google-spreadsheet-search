@@ -1,5 +1,6 @@
 import El from './el.js'
 import LunchService from './lunch-service.js'
+import analytics from './analytics.js'
 
 export default class App {
   constructor () {
@@ -10,7 +11,9 @@ export default class App {
     this.$lunch = new El('lunch-description')
     this.$nameRender = new El('person-name')
     this.$background = new El('background')
+    this.$date = new El('date')
 
+    this.setDate()
     this.setEvents()
     if (this.hasErrors()) {
       this.deleteSession()
@@ -25,7 +28,27 @@ export default class App {
     this.$nameContainer.style('opacity', 1)
   }
 
-  getParameterByName(name, url) {
+  setDate () {
+    const date = new Date().toLocaleDateString('en-GB', {
+        day : 'numeric',
+        weekday: 'short',
+        month : 'short',
+        year : 'numeric'
+    }).split(' ')
+
+    console.log(date)
+    const dayName = date[0].replace(',', '')
+    const dayNumber = date[1]
+    const month = date[2]
+    const year = date[3]
+
+    console.log('DATE:', `${month} ${dayNumber}, ${dayName}`)
+    this.$date
+      .html(`<b>${month} ${dayNumber}</b>, ${dayName}`)
+      .appear()
+  }
+
+  getParameterByName (name, url) {
       if (!url) {
         url = window.location.href;
       }
@@ -66,6 +89,8 @@ export default class App {
     // prepare ui and play it!
     this.$name.hide()
     this.$loading.show()
+
+    analytics.track({action: 'loadLunch', label: name})
 
     // TODO: query backend and get lunch
     const lunchService = new LunchService(name)

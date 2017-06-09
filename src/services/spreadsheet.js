@@ -1,4 +1,3 @@
-'use strict'
 const google = require('googleapis')
 const winston = require('winston')
 winston.level = 'info'

@@ -1,7 +1,7 @@
-'use strict'
 const auth = require('./auth')
 const spreadsheet = require('./spreadsheet')
 const imageSearch = require('./image-search')
+const cache = require('./cache')
 const winston = require('winston')
 winston.level = 'info'
 
@@ -44,6 +44,11 @@ function getLunch ({spreadsheetId, spreadsheetRange, filter}) {
 
 function getRows ({spreadsheetId, spreadsheetRange}) {
   return new Promise((resolve, reject) => {
+    // If we have cached results for today return them.
+    const rows = cache.get()
+    winston.log('debug', 'CACHED ROWS', rows)
+    if (rows) return resolve(rows)
+
     // Ensure the user gives us access to its Google Drive documents.
     auth.grant((auth) => {
       if (auth.status === 'not-authorized') reject(auth)
@@ -51,7 +56,11 @@ function getRows ({spreadsheetId, spreadsheetRange}) {
       spreadsheet
         .getRows({auth, spreadsheetId, spreadsheetRange})
         .then(
-          (rows) => resolve(rows),
+          (rows) => {
+            cache.set(rows) // Update cache.
+            winston.log('debug', 'GOT ROWS', rows)
+            resolve(rows)
+          },
           (error) => reject(error)
         )
     })
@@ -72,4 +81,4 @@ function getMessage (rows) {
   return rows[0]
 }
 
-module.exports = {get}
+module.exports = {get, getRows}

@@ -1,4 +1,3 @@
-'use strict'
 const googleSearch = require('googleapis').customsearch('v1').cse.list
 const winston = require('winston')
 const path = require('path')
