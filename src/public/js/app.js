@@ -1,5 +1,6 @@
 import El from './el.js'
 import LunchService from './lunch-service.js'
+import analytics from './analytics.js'
 
 export default class App {
   constructor () {
@@ -88,6 +89,8 @@ export default class App {
     // prepare ui and play it!
     this.$name.hide()
     this.$loading.show()
+
+    analytics.track({action: 'loadLunch', label: name})
 
     // TODO: query backend and get lunch
     const lunchService = new LunchService(name)

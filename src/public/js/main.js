@@ -1,4 +1,5 @@
+import analytics from './analytics.js'
 import App from './app.js'
-import GoogleAnalytics from './ga.js'
 
+analytics.init()
 const app = new App()
