@@ -1,6 +1,6 @@
 export default class LunchService {
   constructor (name) {
-    this.serviceUrl = serverUrl // set on index.html using server rendering
+    this.serviceUrl = location.origin
     this.promise = null
     this.name = name
     this.successCallback

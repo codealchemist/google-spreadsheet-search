@@ -1,6 +1,8 @@
 const lunchService = require('./services/lunch')
 const auth = require('./services/auth')
 const {resolve} = require('path')
+const winston = require('winston')
+winston.level = 'info'
 
 module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) => {
   // Set redirect URL using current client url.
@@ -12,28 +14,28 @@ module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) 
   });
 
   app.get('/', (req, res) => {
-    res.render(resolve('src/public/index.html'), {})
+    res.render(resolve('dist/index.html'), {})
   })
 
   app.get('/:name', (req, res) => {
-    res.render(resolve('src/public/index.html'), {})
+    res.render(resolve('dist/index.html'), {})
   })
 
   app.get('/name/:name', (req, res) => {
     const personName = req.params.name
-    console.log(`Requesting lunch for ${personName}`)
+    winston.log('info', `Requesting lunch for ${personName}`)
 
     lunchService
       .get(personName, spreadsheetId, spreadsheetRange)
       .then(
         (lunch) => {
-          console.log('GOT LUNCH: ', lunch)
+          winston.log('info', 'GOT LUNCH: ', lunch)
           res
             .status(200)
             .json(lunch)
         },
         (error) => {
-          console.log('- ERROR: ', error.message || error.status || error)
+          winston.log('info', '- ERROR: ', error.message || error.status || error)
           error.recovery = errorRecovery(error)
 
           res

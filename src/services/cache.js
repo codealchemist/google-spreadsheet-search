@@ -69,7 +69,7 @@ function get () {
   }
 
   const timeLeft = prettyMs(Math.abs(cacheLife - ttl))
-  winston.log('info', `CACHE IS VALID. Last updated on: ${mtime}.`)
+  winston.log('debug', `CACHE IS VALID. Last updated on: ${mtime}.`)
   winston.log('info', `CACHE will update in ${timeLeft}.`)
 
   // Try with memory first.

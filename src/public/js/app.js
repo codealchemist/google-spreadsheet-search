@@ -1,8 +1,10 @@
-import El from './el.js'
-import LunchService from './lunch-service.js'
-import analytics from './analytics.js'
+import bean from 'bean'
+import alertify from 'alertify/alertify'
+import El from './el'
+import LunchService from './lunch-service'
+import analytics from './analytics'
 
-export default class App {
+module.exports = class App {
   constructor () {
     this.$name = new El('name')
     this.$nameContainer = new El('name-container')

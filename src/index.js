@@ -35,15 +35,14 @@ app.use(bodyParser.json())
 app.set('json spaces', 2)
 app.engine('html', ejs.renderFile)
 app.set('view engine', 'html')
-app.set('views', path.join(__dirname, '/public'))
+app.set('views', path.join(__dirname, '/../dist'))
+
+// static routes
+app.use(express.static(path.join(__dirname, '/../dist/')));
 
 // set routes
 const serverUrl = `http://${localIp}:${port}`
 require('./routes')({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange})
-
-// static routes
-app.use(express.static(__dirname + '/public/'));
-app.use('/img', express.static(__dirname + '/public/img'));
 
 // start server
 http.createServer(app).listen(app.get('port'), function () {

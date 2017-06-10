@@ -27,7 +27,7 @@ function run (rows) {
     if (row[0].toLowerCase() !== personName.toLowerCase()) return false
 
     // Add lunch data for current date for selected person.
-    const lunch = row[currentDateCol] || `Oops, there's no lunch for you today ${personName}!`
+    const lunch = row[currentDateCol] || `Oops, there's no lunch for you today buddy!`
     filteredRows.push(lunch)
   })
 
