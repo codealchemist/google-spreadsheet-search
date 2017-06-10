@@ -9,12 +9,13 @@
     "start": "npm run build && node src/index.js --debug",
     "docker-start": "./run.sh",
     "docker-rebuild": "./run.sh rebuild",
-    "build": "brunch build"
+    "build": "brunch build --production"
   },
   "author": "Alberto Miranda",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.16.1",
+    "cssnano-brunch": "^1.1.8",
     "dateformat": "^2.0.0",
     "ejs": "^2.5.6",
     "express": "^4.14.1",
@@ -33,6 +34,7 @@
     "brunch": "^2.10.9",
     "javascript-brunch": "^2.10.0",
     "sass-brunch": "^2.10.4",
-    "standard-focus": "^1.1.2"
+    "standard-focus": "^1.1.2",
+    "uglify-js-brunch": "^2.10.0"
   }
 }

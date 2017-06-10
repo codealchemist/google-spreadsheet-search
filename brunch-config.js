@@ -28,6 +28,14 @@ module.exports = {
         }]
       ],
       plugins: ['transform-export-extensions']
+    },
+    uglify: {
+      mangle: false,
+      compress: {
+        global_defs: {
+          DEBUG: false
+        }
+      }
     }
   }
 }
