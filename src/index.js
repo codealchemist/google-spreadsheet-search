@@ -1,6 +1,5 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const morgan = require('morgan')
 const http = require('http')
 const app = express()
 const path = require('path')
@@ -20,17 +19,16 @@ const clientUrl = process.env.CLIENT_URL || `http://localhost:${port}`
 const spreadsheetId = process.env.SPREADSHEET_ID || '124t0jPUtTBwmMx3zWxn7Li1uquvtPE4UFvU_F6MDy0w'
 const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Monthly Food!A1:Z100'
 console.log(`
-	CONFIG:
-	- Server Port: ${port}
-	- Client URL: ${clientUrl}
-	- Spreadsheet ID: ${spreadsheetId}
-	- Spreadsheet Range: ${spreadsheetRange}
+  CONFIG:
+  - Server Port: ${port}
+  - Client URL: ${clientUrl}
+  - Spreadsheet ID: ${spreadsheetId}
+  - Spreadsheet Range: ${spreadsheetRange}
 `)
 
 // set port
 app.set('port', port)
 
-// app.use(morgan('short')) // logger
 app.use(bodyParser.json())
 app.set('json spaces', 2)
 app.engine('html', ejs.renderFile)
@@ -38,7 +36,7 @@ app.set('view engine', 'html')
 app.set('views', path.join(__dirname, '/../dist'))
 
 // static routes
-app.use(express.static(path.join(__dirname, '/../dist/')));
+app.use(express.static(path.join(__dirname, '/../dist/')))
 
 // set routes
 const serverUrl = `http://${localIp}:${port}`

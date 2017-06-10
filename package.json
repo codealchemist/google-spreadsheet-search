@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "standard",
+    "test-focus": "standard-focus",
     "start": "npm run build && node src/index.js --debug",
     "docker-start": "./run.sh",
     "docker-rebuild": "./run.sh rebuild",
@@ -20,7 +21,6 @@
     "google-auth-library": "^0.10.0",
     "googleapis": "^16.1.0",
     "ip": "^1.1.4",
-    "morgan": "^1.8.1",
     "open": "0.0.5",
     "pretty-ms": "^2.1.0",
     "winston": "^2.3.1"
@@ -32,6 +32,7 @@
     "babel-preset-env": "^1.5.2",
     "brunch": "^2.10.9",
     "javascript-brunch": "^2.10.0",
-    "sass-brunch": "^2.10.4"
+    "sass-brunch": "^2.10.4",
+    "standard-focus": "^1.1.2"
   }
 }

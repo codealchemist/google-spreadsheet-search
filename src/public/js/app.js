@@ -32,17 +32,17 @@ module.exports = class App {
 
   setDate () {
     const date = new Date().toLocaleDateString('en-GB', {
-        day : 'numeric',
-        weekday: 'short',
-        month : 'short',
-        year : 'numeric'
+      day: 'numeric',
+      weekday: 'short',
+      month: 'short',
+      year: 'numeric'
     }).split(' ')
 
     console.log(date)
     const dayName = date[0].replace(',', '')
     const dayNumber = date[1]
     const month = date[2]
-    const year = date[3]
+    // const year = date[3]
 
     console.log('DATE:', `${month} ${dayNumber}, ${dayName}`)
     this.$date
@@ -51,19 +51,20 @@ module.exports = class App {
   }
 
   getParameterByName (name, url) {
-      if (!url) {
-        url = window.location.href;
-      }
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-          results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    if (!url) {
+      url = window.location.href
+    }
+
+    name = name.replace(/[[\]]/g, '\\$&')
+    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`)
+    const results = regex.exec(url)
+    if (!results) return null
+    if (!results[2]) return ''
+    return decodeURIComponent(results[2].replace(/\+/g, ' '))
   }
 
   hasErrors () {
-    if (location.search.match(/error=/i)) return true
+    if (window.location.search.match(/error=/i)) return true
   }
 
   displayErrors () {
@@ -71,16 +72,16 @@ module.exports = class App {
       'not-authorized': `Sorry, you're not authorized to access the spreadsheet.`
     }
 
-    const errorCode = this.getParameterByName('error', location.href)
+    const errorCode = this.getParameterByName('error', window.location.href)
     const errorMessage = errorsMap[errorCode] || 'You just broke the Internet :O'
     alertify.error(errorMessage)
   }
 
   autoloadLunch () {
-    if (!location.pathname.match(/[a-z]+/i)) return false
+    if (!window.location.pathname.match(/[a-z]+/i)) return false
 
-    let url = location.href
-    let baseUrl = `${location.origin}/`
+    let url = window.location.href
+    let baseUrl = `${window.location.origin}/`
     let name = decodeURI(url.replace(baseUrl, '')).trim()
 
     // load lunch
@@ -98,7 +99,7 @@ module.exports = class App {
     const lunchService = new LunchService(name)
     lunchService.get(
       (response) => {
-        if(this.handleErrors(response, name)) return
+        if (this.handleErrors(response, name)) return
 
         console.log('--- GOT LUNCH:', response)
         this.renderLunch(name, response)
@@ -107,6 +108,7 @@ module.exports = class App {
       // Connection error.
       (error) => {
         alertify.error('Oops... Something broke at the kitchen.', 0)
+        console.error(error)
         this.$loading.hide()
         this.$name.val('').show().focus()
       }
@@ -120,7 +122,7 @@ module.exports = class App {
       alertify.success('Redirecting to authorization page...')
       console.log('Hey! After authorizing the app you should be taken back to Lunch Notifier and your lunch should load automatically ;)')
       this.saveSession(name)
-      location.href = response.url
+      window.location.href = response.url
       return true
     }
 
@@ -150,15 +152,15 @@ module.exports = class App {
   }
 
   saveSession (name) {
-    localStorage.name = name
+    window.localStorage.name = name
   }
 
   deleteSession (name) {
-    delete localStorage.name
+    delete window.localStorage.name
   }
 
   restoreSession () {
-    const name = localStorage.name
+    const name = window.localStorage.name
     if (!name) return
 
     console.log(`- restoring session for ${name}`)
@@ -185,7 +187,7 @@ module.exports = class App {
   setEvents () {
     // name pasted
     bean.on(this.$name.get(), 'paste', (e) => {
-      let name = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste here...')
+      let name = (e.originalEvent || e).clipboardData.getData('text/plain') || window.prompt('Paste here...')
       this.loadLunch(name)
     })
 
