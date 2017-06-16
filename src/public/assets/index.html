@@ -12,16 +12,34 @@
     <meta property="og:site_name" content="Lunch Notifier"/>
     <meta property="og:type" content="article" />
     <meta property="og:description" content="Let's find out what's for lunch today!" />
-    <!-- <meta property="og:url" content="TODO" /> -->
-    <meta property="og:image" content="lunch-notifier.png" />
-    <link rel="image_src" href="lunch-notifier.png" />
+    <meta property="og:url" content="http://lunch-notifier.herokuapp.com" />
+    <meta property="og:image" content="http://lunch-notifier.herokuapp.com/lunch-notifier.png" />
+    <link rel="image_src" href="http://lunch-notifier.herokuapp.com/lunch-notifier.png" />
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Place favicon.ico in the root directory -->
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#f2f2f2">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#f2f2f2">
 
+    <!-- fonts -->
     <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
 
+    <!-- app styles -->
     <link rel="stylesheet" href="app.css">
   </head>
   <body>
@@ -34,9 +52,9 @@
     <h1>Lunch Notifier</h1>
 
     <div id="app" class="container-fluid">
-      <div id="name-container" class="input-container">
+      <div id="key-container" class="input-container">
         <input
-          id="name"
+          id="key"
           type="text"
           class="big-input rounded abs-center"
           placeholder="Write your name as it's written in the lunch spreadsheet"
@@ -47,10 +65,10 @@
           <p id="date"></p>
         </div>
 
-        <div id="lunch-container" class="big-input abs-center">
-          <p>Hey <b id="person-name" class="capitalize"></b>!</p>
+        <div id="result-container" class="big-input abs-center">
+          <p>Hey <b id="key-display" class="capitalize"></b>!</p>
           <p>This is what you have for lunch today:</p>
-          <h2><b id="lunch-description"></b></h2>
+          <h2><b id="result-display"></b></h2>
         </div>
       </div>
     </div>

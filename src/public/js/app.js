@@ -1,17 +1,17 @@
 import bean from 'bean'
 import alertify from 'alertify/alertify'
 import El from './el'
-import LunchService from './lunch-service'
+import SearchService from './search-service'
 import analytics from './analytics'
 
 module.exports = class App {
   constructor () {
-    this.$name = new El('name')
-    this.$nameContainer = new El('name-container')
+    this.$key = new El('key')
+    this.$keyContainer = new El('key-container')
     this.$loading = new El('loading')
-    this.$lunchContainer = new El('lunch-container')
-    this.$lunch = new El('lunch-description')
-    this.$nameRender = new El('person-name')
+    this.$resultContainer = new El('result-container')
+    this.$resultDisplay = new El('result-display')
+    this.$keyRender = new El('key-display')
     this.$background = new El('background')
     this.$date = new El('date')
 
@@ -23,11 +23,11 @@ module.exports = class App {
       return
     }
 
-    this.autoloadLunch()
+    this.autoload()
     this.restoreSession()
 
     // Display name container.
-    this.$nameContainer.style('opacity', 1)
+    this.$keyContainer.style('opacity', 1)
   }
 
   setDate () {
@@ -77,32 +77,28 @@ module.exports = class App {
     alertify.error(errorMessage)
   }
 
-  autoloadLunch () {
+  autoload () {
     if (!window.location.pathname.match(/[a-z]+/i)) return false
 
     let url = window.location.href
     let baseUrl = `${window.location.origin}/`
-    let name = decodeURI(url.replace(baseUrl, '')).trim()
+    let key = decodeURI(url.replace(baseUrl, '')).trim()
 
-    // load lunch
-    this.loadLunch(name)
+    // Search.
+    this.search(key)
   }
 
-  loadLunch (name) {
-    // prepare ui and play it!
-    this.$name.hide()
+  search (key) {
+    this.$key.hide()
     this.$loading.show()
 
-    analytics.track({action: 'loadLunch', label: name})
+    analytics.track({action: 'search', label: key})
 
-    // TODO: query backend and get lunch
-    const lunchService = new LunchService(name)
-    lunchService.get(
+    const searchService = new SearchService(key)
+    searchService.get(
       (response) => {
-        if (this.handleErrors(response, name)) return
-
-        console.log('--- GOT LUNCH:', response)
-        this.renderLunch(name, response)
+        if (this.handleErrors(response, key)) return
+        this.render(key, response)
       },
 
       // Connection error.
@@ -110,7 +106,7 @@ module.exports = class App {
         alertify.error('Oops... Something broke at the kitchen.', 0)
         console.error(error)
         this.$loading.hide()
-        this.$name.val('').show().focus()
+        this.$key.val('').show().focus()
       }
     )
   }
@@ -120,7 +116,7 @@ module.exports = class App {
     // This happens when there are no credentials stored.
     if (response.status === 'not-authorized') {
       alertify.success('Redirecting to authorization page...')
-      console.log('Hey! After authorizing the app you should be taken back to Lunch Notifier and your lunch should load automatically ;)')
+      console.log('Hey! After authorizing the app you should be taken back to it and your search will run automatically ;)')
       this.saveSession(name)
       window.location.href = response.url
       return true
@@ -129,10 +125,10 @@ module.exports = class App {
     // Invalid request.
     // Usually happens when the credentials are wrong.
     if (response.code === 400) {
-      alertify.error('Oops... Something broke at the kitchen.', 0)
+      alertify.error('Oops... Something broke at the kitchen.', 0) // TODO: parameterize this
       console.log('Psss... Tell the admin to delete the existing credentials.')
       this.$loading.hide()
-      this.$name.val('').show().focus()
+      this.$key.val('').show().focus()
       return true
     }
 
@@ -142,9 +138,9 @@ module.exports = class App {
     // have access to the spreadsheet.
     if (response.code === 403) {
       alertify.error(`You still don't have access to the spreadsheet. Are you using the correct Google account?`, 0)
-      console.log(`Did you just deny access on the authorization page? If not you should double check if you're using your Elementum account, which is the one with access the the lunch spreadsheet.`)
+      console.log(`Did you just deny access on the authorization page? If not you should double check if you're using the Google account with access the the spreadsheet.`)
       this.$loading.hide()
-      this.$name.val('').show().focus()
+      this.$key.val('').show().focus()
       return true
     }
 
@@ -165,36 +161,36 @@ module.exports = class App {
 
     console.log(`- restoring session for ${name}`)
     this.deleteSession(name)
-    if (name) this.loadLunch(name)
+    if (name) this.search(name)
   }
 
-  renderLunch (name, data) {
-    let lunch = data.lunch
-    if (lunch === '(EMPTY)') lunch = 'JUST AIR, sorry.'
+  render (name, response) {
+    let result = response.data
+    if (result === '(EMPTY)') result = 'JUST AIR, sorry.' // TODO: parameterize this
 
     this.$loading.hide()
-    this.$lunchContainer.show()
-    this.$lunch.html(lunch)
-    this.$nameRender.html(name)
+    this.$resultContainer.show()
+    this.$resultDisplay.html(result)
+    this.$keyRender.html(name)
 
     // Render image.
-    if (data.image) {
-      let image = data.image.src
+    if (response.image) {
+      let image = response.image.src
       this.$background.style('background-image', `url('${image}')`)
     }
   }
 
   setEvents () {
     // name pasted
-    bean.on(this.$name.get(), 'paste', (e) => {
+    bean.on(this.$key.get(), 'paste', (e) => {
       let name = (e.originalEvent || e).clipboardData.getData('text/plain') || window.prompt('Paste here...')
-      this.loadLunch(name)
+      this.search(name)
     })
 
-    bean.on(this.$name.get(), 'keyup', (e) => {
+    bean.on(this.$key.get(), 'keyup', (e) => {
       if (e.keyCode === 13) {
-        const name = this.$name.val()
-        this.loadLunch(name)
+        const name = this.$key.val()
+        this.search(name)
       }
     })
 
@@ -202,8 +198,8 @@ module.exports = class App {
     bean.on(document, 'keyup', (e) => {
       if (e.keyCode === 27) {
         this.$loading.hide()
-        this.$lunchContainer.hide()
-        this.$name.val('').show().focus()
+        this.$resultContainer.hide()
+        this.$key.val('').show().focus()
       }
     })
   }

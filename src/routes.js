@@ -1,4 +1,4 @@
-const lunchService = require('./services/lunch')
+const searchService = require('./services/search')
 const auth = require('./services/auth')
 const {resolve} = require('path')
 const winston = require('winston')
@@ -17,22 +17,22 @@ module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) 
     res.render(resolve('dist/index.html'), {})
   })
 
-  app.get('/:name', (req, res) => {
+  app.get('/:key', (req, res) => {
     res.render(resolve('dist/index.html'), {})
   })
 
-  app.get('/name/:name', (req, res) => {
-    const personName = req.params.name
-    winston.log('info', `Requesting lunch for ${personName}`)
+  app.get('/key/:key', (req, res) => {
+    const key = req.params.key
+    winston.log('info', `Searching for ${key}`)
 
-    lunchService
-      .get(personName, spreadsheetId, spreadsheetRange)
+    searchService
+      .get(key, spreadsheetId, spreadsheetRange)
       .then(
-        (lunch) => {
-          winston.log('info', 'GOT LUNCH: ', lunch)
+        (data) => {
+          winston.log('info', 'GOT DATA: ', data)
           res
             .status(200)
-            .json(lunch)
+            .json(data)
         },
         (error) => {
           winston.log('info', '- ERROR: ', error.message || error.status || error)
@@ -47,7 +47,6 @@ module.exports = ({app, serverUrl, clientUrl, spreadsheetId, spreadsheetRange}) 
 
   app.get('/auth/google/callback', (req, res) => {
     const code = req.query.code
-    const personName = req.query.personName
 
     if (!code) {
       res.redirect(`${clientUrl}?error=not-authorized`)

@@ -1,7 +1,7 @@
 {
-  "name": "lunch-notifier-service",
+  "name": "google-spreadsheet-search",
   "version": "1.1.0",
-  "description": "Find what you have for lunch in one easy step, with style ;)",
+  "description": "Search in your Google spreadsheets from a simple website.",
   "main": "src/index.js",
   "scripts": {
     "test": "standard",
@@ -12,6 +12,7 @@
     "build": "brunch build --production"
   },
   "author": "Alberto Miranda",
+  "repository": "codealchemist/google-spreadsheet-search",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.16.1",
@@ -22,6 +23,7 @@
     "google-auth-library": "^0.10.0",
     "googleapis": "^16.1.0",
     "ip": "^1.1.4",
+    "nconf": "^0.8.4",
     "open": "0.0.5",
     "pretty-ms": "^2.1.0",
     "winston": "^2.3.1"

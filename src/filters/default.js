@@ -1,6 +1,6 @@
 const dateFormat = require('dateformat')
 const dateFormatting = process.env.DATE_FORMATTING || 'mmm d'
-let personName
+let key
 
 // Set rows filter.
 function run (rows) {
@@ -24,7 +24,7 @@ function run (rows) {
     }
 
     // Iterate row values.
-    if (row[0].toLowerCase() !== personName.toLowerCase()) return false
+    if (row[0].toLowerCase() !== key.toLowerCase()) return false
 
     // Add lunch data for current date for selected person.
     const lunch = row[currentDateCol] || `Oops, there's no lunch for you today buddy!`
@@ -32,17 +32,17 @@ function run (rows) {
   })
 
   if (!filteredRows) {
-    console.log(`Sorry ${personName}, I wasn't able to find your food for today.`)
+    console.log(`Sorry ${key}, I wasn't able to find your food for today.`)
     process.exit()
   }
   return filteredRows
 }
 
-function setPersonName (name) {
-  personName = name
+function setKey (_key) {
+  key = _key
 }
 
 module.exports = {
   run,
-  setPersonName
+  setKey
 }

@@ -26,12 +26,12 @@ h1 {
   font-size: 40px;
 }
 
-#name-container {
+#key-container {
   opacity: 0;
   transition: all 1s;
 }
 
-#lunch-container {
+#result-container {
   display: none;
   color: #999;
 }

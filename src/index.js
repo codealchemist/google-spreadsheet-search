@@ -1,12 +1,14 @@
-const express = require('express')
-const bodyParser = require('body-parser')
 const http = require('http')
-const app = express()
 const path = require('path')
 const fs = require('fs')
-const ip = require('ip')
-const localIp = ip.address()
+const express = require('express')
+const bodyParser = require('body-parser')
 const ejs = require('ejs')
+const ip = require('ip')
+const config = require('./config')
+
+const app = express()
+const localIp = ip.address()
 
 // print ascii art
 var artFile = path.join(__dirname, '/ascii-art.txt')
@@ -14,10 +16,10 @@ var art = fs.readFileSync(artFile, 'utf8')
 console.info(art)
 
 // Set config params.
-const port = process.env.PORT || process.env.port || 9200
-const clientUrl = process.env.CLIENT_URL || `http://localhost:${port}`
-const spreadsheetId = process.env.SPREADSHEET_ID || '124t0jPUtTBwmMx3zWxn7Li1uquvtPE4UFvU_F6MDy0w'
-const spreadsheetRange = process.env.SPREADSHEET_RANGE || 'Monthly Food!A1:Z100'
+const port = config.get('PORT') || config.get('port') || 9200
+const clientUrl = config.get('CLIENT_URL') || `http://localhost:${port}`
+const spreadsheetId = config.get('SPREADSHEET_ID') || config.get('spreadsheet').id
+const spreadsheetRange = config.get('SPREADSHEET_RANGE') || config.get('spreadsheet').range
 console.log(`
   CONFIG:
   - Server Port: ${port}

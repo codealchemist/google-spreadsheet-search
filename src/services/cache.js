@@ -1,20 +1,22 @@
 const fs = require('fs')
 const prettyMs = require('pretty-ms')
 const winston = require('winston')
+const config = require('../config')
 
 winston.level = 'info'
 const ttl = 8 * 60 * 60 * 1000 // 8 hours.
-const fileName = '.lunch-notifier-cache.json'
+const fileName = '.google-spreadsheet-search-cache.json'
 const cachePath = getCachePath()
 const cacheFile = `${cachePath}/${fileName}`
 let memoryRows = null
 let lastUpdatedTime = null
 
 function getCachePath () {
-  return process.env.CACHE_PATH ||
-    process.env.HOME ||
-    process.env.HOMEPATH ||
-    process.env.USERPROFILE
+  return config.get('CACHE_PATH') ||
+    config.get('cachePath') ||
+    config.get('HOME') ||
+    config.get('HOMEPATH') ||
+    config.get('USERPROFILE')
 }
 
 function getLastUpdateTime () {
@@ -38,7 +40,7 @@ function getLastUpdateTime () {
   // Cache is available.
   // Check if its time to live is valid.
   const mtime = new Date(stats.mtime)
-  return mtime;
+  return mtime
 }
 
 function set (rows) {

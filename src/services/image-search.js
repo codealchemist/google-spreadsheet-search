@@ -1,7 +1,7 @@
 const googleSearch = require('googleapis').customsearch('v1').cse.list
 const winston = require('winston')
 const path = require('path')
-const credentialsFile = path.join(__dirname, '/../../ids.json')
+const credentialsFile = path.join(__dirname, '/../../config.json')
 const credentials = require(credentialsFile)
 winston.level = 'info'
 

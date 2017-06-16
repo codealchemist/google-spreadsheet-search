@@ -4,25 +4,27 @@ const readline = require('readline')
 const GoogleAuth = require('google-auth-library')
 const open = require('open')
 const winston = require('winston')
+const config = require('../config')
+
 winston.level = 'info'
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/sheets.googleapis.credentials.json
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 const TOKEN_DIR = (
-  process.env.HOME ||
-  process.env.HOMEPATH ||
-  process.env.USERPROFILE
+  config.get('HOME') ||
+  config.get('HOMEPATH') ||
+  config.get('USERPROFILE')
 ) + '/.credentials/'
 const TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.credentials.json'
 
-const clientSecret = 'C4k6hgC8q9F-NkTP_zW-Up16'
-const clientId = '230695130495-nlrp4ldi1m81fhr8jkvi48bbcegcdqs2.apps.googleusercontent.com'
+const clientSecret = config.get('CLIENT_SECRET') || config.get('client').secret
+const clientId = config.get('CLIENT_ID') || config.get('client').id
 
 const auth = new GoogleAuth()
 let oauth2Client
 
-module.exports = {grant, getNewTokenWebFlow, deleteCredentials, init}
+module.exports = {authorize, getNewTokenWebFlow, deleteCredentials, init}
 
 // ----------------------------------------------------------------------
 
@@ -37,36 +39,13 @@ function init (clientUrl) {
  * This credentials object is used to access documents using the
  * Google API.
  *
- * @param  {Function} callback
- */
-function grant (callback) {
-  // Load client secrets from a local file.
-  const credentialsFile = resolve(__dirname, '../../ids.json')
-  fs.readFile(credentialsFile, function processClientSecrets (err, content) {
-    if (err) {
-      winston.log('debug', 'Error loading client secret file: ' + err)
-      return
-    }
-    // Authorize a client with the loaded credentials, then call the
-    // Google Sheets API.
-    const credentials = JSON.parse(content)
-    authorize(credentials.sheets, callback)
-  })
-}
-
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- *
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize (credentials, callback) {
+function authorize (callback) {
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, function (err, token) {
     if (err) {
-      // getNewToken(oauth2Client, callback)
-
       const authObj = getAuthObject()
       callback(authObj)
     } else {
@@ -84,43 +63,43 @@ function authorize (credentials, callback) {
  * @param {getEventsCallback} callback The callback to call with the authorized
  *     client.
  */
-function getNewToken (oauth2Client, callback) {
-  const authUrl = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES
-  })
+// function getNewToken (oauth2Client, callback) {
+//   const authUrl = oauth2Client.generateAuthUrl({
+//     access_type: 'offline',
+//     scope: SCOPES
+//   })
 
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
+//   const rl = readline.createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+//   })
 
-  // Display and open URL to authenticate with Google.
-  console.log('-'.repeat(80))
-  open(authUrl, (error) => {
-    if (error) {
-      console.log('Authorize this app by visiting this url: ', authUrl)
-      console.log()
-    }
-  })
+//   // Display and open URL to authenticate with Google.
+//   console.log('-'.repeat(80))
+//   open(authUrl, (error) => {
+//     if (error) {
+//       console.log('Authorize this app by visiting this url: ', authUrl)
+//       console.log()
+//     }
+//   })
 
-  rl.question('Enter the code obtained on the authorization page: ', function (code) {
-    oauth2Client.getToken(code, function (err, token) {
-      if (err) {
-        console.log('Error while trying to retrieve access token', err)
-        console.log('-'.repeat(80))
-        console.log()
-        return
-      }
+//   rl.question('Enter the code obtained on the authorization page: ', function (code) {
+//     oauth2Client.getToken(code, function (err, token) {
+//       if (err) {
+//         console.log('Error while trying to retrieve access token', err)
+//         console.log('-'.repeat(80))
+//         console.log()
+//         return
+//       }
 
-      console.log('-'.repeat(80))
-      console.log()
-      oauth2Client.credentials = token
-      storeToken(token)
-      callback(oauth2Client)
-    })
-  })
-}
+//       console.log('-'.repeat(80))
+//       console.log()
+//       oauth2Client.credentials = token
+//       storeToken(token)
+//       callback(oauth2Client)
+//     })
+//   })
+// }
 
 function getAuthObject () {
   const authUrl = oauth2Client.generateAuthUrl({
