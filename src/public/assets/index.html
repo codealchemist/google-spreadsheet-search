@@ -13,21 +13,16 @@
     <meta property="og:type" content="article" />
     <meta property="og:description" content="Let's find out what's for lunch today!" />
     <!-- <meta property="og:url" content="TODO" /> -->
-    <meta property="og:image" content="img/lunch-notifier.png" />
-    <link rel="image_src" href="img/lunch-notifier.png" />
+    <meta property="og:image" content="lunch-notifier.png" />
+    <link rel="image_src" href="lunch-notifier.png" />
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
-    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/alertify.js/0.5.0/alertify.default.min.css" rel="stylesheet"> -->
-    <link href="//alertifyjs.com/build/css/alertify.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
 
-    <!-- build:css /styles/main.css -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/loading.css">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="app.css">
   </head>
   <body>
     <!--[if lt IE 10]>
@@ -83,26 +78,7 @@
       </p>
     </footer>
 
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/alertify.js/0.5.0/alertify.min.js"></script> -->
-    <script src="//alertifyjs.com/build/alertify.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.9/system.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bean/1.0.15/bean.min.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- build:js /scripts/bundle.js -->
-    <script>
-      const serverUrl = location.origin
-      SystemJS.config({
-        'baseURL': 'js',
-        map: {
-          'plugin-babel': 'lib/plugin-babel.js',
-          'systemjs-babel-build': 'lib/systemjs-babel-browser.js'
-        },
-        transpiler: 'plugin-babel'
-      });
-      SystemJS.import("main.js");
-    </script>
-    <!-- endbuild -->
+    <script src="app.js"></script>
+    <script>require('main')</script>
   </body>
 </html>

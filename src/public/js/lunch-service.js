@@ -1,6 +1,6 @@
 export default class LunchService {
   constructor (name) {
-    this.serviceUrl = serverUrl // set on index.html using server rendering
+    this.serviceUrl = window.location.origin
     this.promise = null
     this.name = name
     this.successCallback
@@ -12,9 +12,9 @@ export default class LunchService {
     this.errorCallback = errorCallback
 
     const url = `${this.serviceUrl}/name/${this.name}`
-    this.promise = fetch(url, {
+    this.promise = window.fetch(url, {
       method: 'GET',
-      headers: new Headers({
+      headers: new window.Headers({
         'Content-Type': 'application/json'
       })
     })

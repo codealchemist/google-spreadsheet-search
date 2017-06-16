@@ -1,27 +1,40 @@
 {
   "name": "lunch-notifier-service",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Find what you have for lunch in one easy step, with style ;)",
   "main": "src/index.js",
   "scripts": {
     "test": "standard",
-    "start": "node src/index.js --debug",
+    "test-focus": "standard-focus",
+    "start": "npm run build && node src/index.js --debug",
     "docker-start": "./run.sh",
-    "docker-rebuild": "./run.sh rebuild"
+    "docker-rebuild": "./run.sh rebuild",
+    "build": "brunch build --production"
   },
   "author": "Alberto Miranda",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.16.1",
+    "cssnano-brunch": "^1.1.8",
     "dateformat": "^2.0.0",
     "ejs": "^2.5.6",
     "express": "^4.14.1",
     "google-auth-library": "^0.10.0",
     "googleapis": "^16.1.0",
     "ip": "^1.1.4",
-    "morgan": "^1.8.1",
     "open": "0.0.5",
     "pretty-ms": "^2.1.0",
     "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-brunch": "^6.1.1",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-preset-env": "^1.5.2",
+    "brunch": "^2.10.9",
+    "javascript-brunch": "^2.10.0",
+    "sass-brunch": "^2.10.4",
+    "standard-focus": "^1.1.2",
+    "uglify-js-brunch": "^2.10.0"
   }
 }
