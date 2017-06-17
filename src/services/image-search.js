@@ -1,14 +1,13 @@
 const googleSearch = require('googleapis').customsearch('v1').cse.list
 const winston = require('winston')
 const path = require('path')
-const credentialsFile = path.join(__dirname, '/../../config.json')
-const credentials = require(credentialsFile)
+const config = require('../config')
 winston.level = 'info'
 
 function search (terms, callback) {
   googleSearch({
-    cx: credentials.search.cx,
-    auth: credentials.search.key,
+    cx: config.get('SEARCH_CX') || config.get('search').cx,
+    auth: config.get('SEARCH_KEY') || config.get('search').key,
     imgSize: 'medium',
     imgType: 'photo',
     num: 1,
