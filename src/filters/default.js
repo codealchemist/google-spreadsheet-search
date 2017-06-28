@@ -24,6 +24,7 @@ function run (rows) {
     }
 
     // Iterate row values.
+    if (!row[0]) return false
     if (row[0].toLowerCase() !== key.toLowerCase()) return false
 
     // Add lunch data for current date for selected person.
