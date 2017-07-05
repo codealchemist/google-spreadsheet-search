@@ -27,10 +27,12 @@ function run (rows) {
     // Iterate row values.
     if (!row[0]) return false
     // console.log(`CURRENT NAME: ${row[0]}`)
-    if (row[0].toLowerCase() !== key.toLowerCase()) return false
+    const currentValue = row[0].toLowerCase().trim().replace('  ', ' ')
+    const value = key.toLowerCase().trim()
+    if (currentValue !== value) return false
 
     // Add lunch data for current date for selected person.
-    // console.log(`==== CURRENT DATE COL: ${currentDateCol}:`, row[currentDateCol])
+    // console.log(`==== CURRENT DATE COL: '${currentDateCol}': '${row[currentDateCol]}'`)
     const lunch = row[currentDateCol] || `Oops, there's no lunch for you today buddy!`
     filteredRows.push(lunch)
     return true
