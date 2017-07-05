@@ -26,6 +26,7 @@ console.log(`
   - Client URL: ${clientUrl}
   - Spreadsheet ID: ${spreadsheetId}
   - Spreadsheet Range: ${spreadsheetRange}
+  - Date Format: "${process.env.DATE_FORMATTING || 'default'}"
 `)
 
 // set port
